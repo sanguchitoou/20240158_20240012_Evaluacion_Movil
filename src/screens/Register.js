@@ -1,87 +1,170 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
-import { useAuth } from '../hooks/useAuth';
+import React, { useState } from "react";
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+} from "react-native";
+
+//Importamos lo necesario!!!
+import { useAuth } from "../hooks/useAuth";
+
+import InputField from "../components/InputField";
+import CustomButton from "../components/CustomButton";
 
 const Register = ({ navigation }) => {
-    const { register } = useAuth();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const { register } = useAuth();
 
-    return (
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
-            <ScrollView
-                contentContainerStyle={styles.scrollContent}
-                keyboardShouldPersistTaps='handled'
-            >
-                <Text style={styles.title}>Crear cuenta</Text>
+  const [nombreCompleto, setNombreCompleto] = useState("");
+  const [fechaNacimiento, setFechaNacimiento] = useState("");
+  const [carnet, setCarnet] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Correo:</Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={setEmail}
-                        value={email}
-                        autoCapitalize='none'
-                        keyboardType='email-address'
-                    />
-                </View>
-
-                <View style={styles.inputContainer}>
-                    <Text style={styles.label}>Contraseña:</Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={setPassword}
-                        value={password}
-                        secureTextEntry
-                    />
-                </View>
-
-                <TouchableOpacity style={styles.button} onPress={() => register(email, password)}>
-                    <Text style={styles.buttonText}>Registrarme</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.linkButton} onPress={() => navigation.navigate('Login')}>
-                    <Text style={styles.linkText}>¿Ya tienes cuenta? Inicia sesión</Text>
-                </TouchableOpacity>
-            </ScrollView>
-        </KeyboardAvoidingView>
+  const handleRegister = () => {
+    register(
+      email,
+      password,
+      nombreCompleto,
+      fechaNacimiento,
+      carnet,
+      imageUrl,
     );
+  };
+
+  //Retornamos el diseño!!!
+  return (
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.header}>
+          <Text style={styles.title}>Regristrate</Text>
+
+          <Text style={styles.subtitle}>
+            Completa tus datos para registrarte
+          </Text>
+        </View>
+
+        <View style={styles.form}>
+          <InputField
+            label="Nombre completo"
+            value={nombreCompleto}
+            onChangeText={setNombreCompleto}
+            placeholder="Nombre y apellidos"
+          />
+
+          <InputField
+            label="Fecha de nacimiento"
+            value={fechaNacimiento}
+            onChangeText={setFechaNacimiento}
+            placeholder="DD/MM/AAAA"
+          />
+
+          <InputField
+            label="Carnet institucional"
+            value={carnet}
+            onChangeText={setCarnet}
+            placeholder="Ejemplo. 20210001"
+          />
+
+          <InputField
+            label="URL de imagen"
+            value={imageUrl}
+            onChangeText={setImageUrl}
+            placeholder="https://ejemplo.com/imagen.jpg"
+            keyboardType="url"
+          />
+
+          <InputField
+            label="Correo electrónico"
+            value={email}
+            onChangeText={setEmail}
+            placeholder="micorreo@ejemplo.com"
+            keyboardType="email-address"
+          />
+
+          <InputField
+            label="Contraseña"
+            value={password}
+            onChangeText={setPassword}
+            placeholder="Mínimo 6 caracteres"
+            secureTextEntry
+          />
+
+          <CustomButton title="Registrarme" onPress={handleRegister} />
+
+          <Text
+            style={styles.loginText}
+            onPress={() => navigation.navigate("Login")}
+          >
+            ¿Ya tienes una cuenta?{" "}
+            <Text style={styles.loginLink}>Inicia sesión</Text>
+          </Text>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
 };
 
 export default Register;
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#fff' },
-    scrollContent: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', padding: 20 },
-    title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
-    input: {
-        height: 40,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        borderRadius: 4,
-        paddingLeft: 8,
-        backgroundColor: '#fff',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 5,
-        elevation: 2,
-        width: '100%',
-    },
-    button: {
-        backgroundColor: '#0288d1',
-        padding: 10,
-        borderRadius: 5,
-        marginTop: 20,
-        width: '100%',
-        alignItems: 'center',
-    },
-    buttonText: { color: 'white', fontWeight: 'bold', textAlign: 'center' },
-    label: { fontSize: 16, marginBottom: 8, color: '#333' },
-    inputContainer: { width: '100%', padding: 16, backgroundColor: '#f8f9fa', marginBottom: 16 },
-    linkButton: { marginTop: 16 },
-    linkText: { color: '#0288d1', textAlign: 'center' },
+  container: {
+    flex: 1,
+    backgroundColor: "#e2f0ffff",
+  },
+
+  scrollContent: {
+    flexGrow: 1,
+    padding: 24,
+    justifyContent: "center",
+  },
+
+  header: {
+    alignItems: "center",
+    marginBottom: 25,
+  },
+
+  title: {
+    fontSize: 28,
+    fontWeight: "800",
+    color: "#0F172A",
+    marginBottom: 8,
+  },
+
+  subtitle: {
+    fontSize: 14,
+    color: "#64748B",
+    textAlign: "center",
+  },
+
+  form: {
+    width: "100%",
+    backgroundColor: "#b8daffff",
+    padding: 22,
+    borderRadius: 0,
+    borderWidth: 1,
+    borderColor: "#E2E8F0",
+  },
+
+  loginText: {
+    textAlign: "center",
+    color: "#64748B",
+    fontSize: 14,
+    marginTop: 22,
+  },
+
+  loginLink: {
+    color: "#2563EB",
+    fontWeight: "700",
+  },
 });
