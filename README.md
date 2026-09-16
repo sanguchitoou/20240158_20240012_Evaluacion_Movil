@@ -1,13 +1,13 @@
-# Práctica Firebase — React Native (Expo)
+# Evaluación App Móvil 10%
 
 Aplicación móvil desarrollada con **React Native + Expo** que consume **Firebase** (Firestore para datos y Authentication para inicio de sesión), como práctica complementaria del curso.
 
 ## Funcionalidades
 
-- **CRUD de productos** en tiempo real con Cloud Firestore (`onSnapshot`).
+- **CRUD de perfiles** en tiempo real con Cloud Firestore (`onSnapshot`).
 - **Autenticación de usuarios** con Firebase Authentication (correo y contraseña), con sesión persistente entre cierres de la app.
 - **Navegación condicionada por sesión**: si no hay usuario autenticado se muestra el stack de Login/Registro; si lo hay, se muestra el stack de la app.
-- **Lógica separada en custom hooks**: cada screen consume un hook (`useHome`, `useAdd`, `useAuth`) en lugar de tener `useState`/`useEffect`/llamadas a Firebase directamente en el componente.
+- **Lógica separada en custom hooks**: cada screen consume un hook.
 - **Splash screen e icono personalizados**.
 
 ## Estructura del proyecto
@@ -15,27 +15,22 @@ Aplicación móvil desarrollada con **React Native + Expo** que consume **Fireba
 ```
 src/
 ├── components/
-│   └── CardProductos.js       # Tarjeta de producto reutilizable
+│   └── CustomButton.js        # Botón reutilizable
+│   └── InputField.js          # Input reutilizable
 ├── config/
 │   └── firebase.js            # Inicialización de Firebase (App, Firestore, Auth)
 ├── hooks/
 │   ├── useAuth.jsx            # Lógica de login, registro, logout y estado de sesión
-│   ├── useAdd.jsx             # Lógica del formulario de agregar producto
-│   └── useHome.jsx            # Lógica de listado en tiempo real de productos
+│   ├── useProfile.jsx         # Lógica del formulario de agregar perfil
+│   └── useUsers.jsx           # Lógica de listado en tiempo real de perfiles
 ├── navigation/
-│   └── Navigation.js          # Stack de navegación (Auth stack / App stack)
+│   └── Navigation.js          # Navegación de la aplicación
 └── screens/
     ├── Login.js                # Pantalla de inicio de sesión
-    ├── Register.js             # Pantalla de registro
-    ├── Home.js                 # Listado de productos
-    └── Add.js                  # Formulario para agregar producto
+    ├── Profile.js              # Pantalla de visualización de perfil
+    ├── Dashboard.js            # Listado de perfiles
+    └── Register.js             # Formulario para registrar perfil
 ```
-
-## Requisitos previos
-
-- Node.js LTS
-- Expo CLI (`npx expo`)
-- Un proyecto de Firebase con **Firestore** y **Authentication** (proveedor Correo/contraseña) habilitados
 
 ## Variables de entorno
 
@@ -110,3 +105,8 @@ El flujo de autenticación usa `initializeAuth` con persistencia en `AsyncStorag
 - `register(email, password)` — crea una cuenta con `createUserWithEmailAndPassword`.
 - `logout()` — cierra la sesión con `signOut`.
 - `user` / `loadingAuth` — estado de sesión consumido por `Navigation.js` para decidir qué stack mostrar.
+
+## Autores
+
+- Juan Carlos Rodríguez Funes            #20240158
+- Andrée Alessandro Orellana Sandoval    #20240012
